@@ -26,7 +26,8 @@ $(SOURCE:%.tex=%.pdf) : images ${SOURCE} ${BIBFILE}
 clean:
 	-rm $(SOURCE:%.tex=%.pdf) $(SOURCE:%.tex=%.aux) \
             $(SOURCE:%.tex=%.out) $(SOURCE:%.tex=%.log) \
-            $(SOURCE:%.tex=%.bbl) $(SOURCE:%.tex=%.blg)
+            $(SOURCE:%.tex=%.bbl) $(SOURCE:%.tex=%.blg) \
+            $(SOURCE:%.tex=%.toc)
 
 
 cleanall: clean
