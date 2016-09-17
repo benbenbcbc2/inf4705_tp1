@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import argparse
+import time
+
 from mergesort import *
 from bucketsort import *
 
@@ -29,5 +31,25 @@ parser.add_argument("--amortissement", "-m", type=int, default=1,
                     help="Amortir le surcoût de chronométrage sur N" \
                     " exécutions.")
 
-args = parser.parse_args()
+def main():
+    args = parser.parse_args()
 
+    with args.exemplaire as f:
+        items = [int(l) for l in f]
+
+    start = time.process_time()
+    for i in range(args.amortissement):
+        sorted_items = algomap[args.algorithme].sort_fast(items)
+    stop = time.process_time()
+
+    elapsed = stop - start
+    average = elapsed / args.amortissement
+
+    if args.temps:
+        print("Temps moyen: {} secondes".format(average))
+
+    if args.print:
+        print(sorted_items)
+
+if __name__ == "__main__":
+    main()
