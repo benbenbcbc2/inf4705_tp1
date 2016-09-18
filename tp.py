@@ -11,6 +11,8 @@ algorithms = [
     Bucketsort(10, "bucketSeuil"),
     Mergesort(),
     Mergesort(10, "mergeSeuil"),
+    InsertionSort(),
+    PythonSort(),
 ]
 
 algomap = {a.get_name(): a for a in algorithms}

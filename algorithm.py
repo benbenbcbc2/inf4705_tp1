@@ -1,4 +1,5 @@
 import abc
+from bisect import *
 
 class SortingAlgorithm(metaclass=abc.ABCMeta):
     name = ""
@@ -22,3 +23,21 @@ class SortingAlgorithm(metaclass=abc.ABCMeta):
 
     def get_name(self):
         return self.name
+
+class PythonSort(SortingAlgorithm):
+    name = "python"
+
+    def _sort_fast(self, items, recursive_threshold):
+        return sorted(items)
+
+def insertion_sort(items):
+    res = []
+    for i in items:
+        insort(res, i)
+    return res
+
+class InsertionSort(SortingAlgorithm):
+    name = "insertion"
+
+    def _sort_fast(self, items, recursive_threshold):
+        return insertion_sort(items)
