@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+from collections import OrderedDict
 import time
 
 from mergesort import *
@@ -15,7 +16,7 @@ algorithms = [
     PythonSort(),
 ]
 
-algomap = {a.get_name(): a for a in algorithms}
+algomap = OrderedDict((a.get_name(), a) for a in algorithms)
 
 parser = argparse.ArgumentParser(
     description="Lancer et chronométrer les algorithmes du lab")
