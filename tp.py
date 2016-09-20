@@ -19,37 +19,38 @@ algorithms = [
 algomap = OrderedDict((a.get_name(), a) for a in algorithms)
 
 parser = argparse.ArgumentParser(
-    description="Lancer et chronométrer les algorithmes du lab")
-parser.add_argument("--algorithme", "-a", choices=algomap.keys(),
+    description="Start and time sorting algorithms for the lab")
+parser.add_argument("--algorithm", "-a", choices=algomap.keys(),
                     required=True)
-parser.add_argument("--exemplaire", "-e", type=argparse.FileType('r'),
+parser.add_argument("--ex_path", "-e", type=argparse.FileType('r'),
                     required=True,
-                    help="Le fichier contenant les nombres à trier.")
+                    help="the file containing the numbers to sort")
 parser.add_argument("--print", "-p", action='store_true',
-                    help="Afficher les nombres triés.")
-parser.add_argument("--temps", "-t", action='store_true',
-                    help="Afficher le temps chronométré.")
-parser.add_argument("--amortissement", "-m", type=int, default=1,
+                    help="print the sorted list")
+parser.add_argument("--time", "-t", action='store_true',
+                    help="show the mean time of execution")
+parser.add_argument("--amortize", "-m", type=int, default=1,
                     metavar="N",
-                    help="Amortir le surcoût de chronométrage sur N" \
-                    " exécutions.")
+                    help="amortize the timing overhead over N" \
+                    " executions")
 
 def main():
     args = parser.parse_args()
 
-    with args.exemplaire as f:
+    algo = algomap[args.algorithm]
+    with args.ex_path as f:
         items = [int(l) for l in f]
 
     start = time.process_time()
-    for i in range(args.amortissement):
-        sorted_items = algomap[args.algorithme].sort_fast(items)
+    for i in range(args.amortize):
+        sorted_items = algo.sort_fast(items)
     stop = time.process_time()
 
     elapsed = stop - start
-    average = elapsed / args.amortissement
+    average = elapsed / args.amortize
 
-    if args.temps:
-        print("Temps moyen: {} secondes".format(average))
+    if args.time:
+        print("Mean time: {} seconds".format(average))
 
     if args.print:
         print(sorted_items)
