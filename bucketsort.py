@@ -7,14 +7,14 @@ def bucketSort(items, minimum, maximum, recursive_threshold):
     elif len(items) < recursive_threshold:
         return insertion_sort(items)
     else:
-        limitation = min(len(items), itemRange)
-        buckets = [[] for x in range(limitation+1)]
+        length = len(items)
+        buckets = [[] for x in range(length+1)]
         for item in items:
-            buckets[int((item-minimum)/itemRange * limitation)].append(item)
+            buckets[int((item-minimum)/itemRange * length)].append(item)
         sortItems = []
-        for i in range(0,limitation):
-            sortItems.extend(bucketSort(buckets[i], int(i*itemRange/limitation+minimum), int((i+1)*itemRange/limitation+minimum), recursive_threshold))
-        sortItems.extend(buckets[limitation])
+        for i in range(0,length):
+            sortItems.extend(bucketSort(buckets[i], int(i*itemRange/length+minimum), int((i+1)*itemRange/length+minimum), recursive_threshold))
+        sortItems.extend(buckets[length])
         return sortItems
 
 
