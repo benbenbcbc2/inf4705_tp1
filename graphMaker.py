@@ -32,7 +32,7 @@ def main():
                     stop = time.process_time()
                     elapsed += stop - start
                 average = elapsed / len(subset)
-                data.write(str(average) + "\t")
+                data.write("%.20f\t" % average)
             data.write('\n')
         data.close()
 
