@@ -1,20 +1,24 @@
 from algorithms.algorithm import *
 
 def bucketSort(items, minimum, maximum, recursive_threshold):
-    itemRange = maximum-minimum
-    if len(items) < 2 or itemRange < 2 :
+    item_range = maximum-minimum
+    if len(items) < 2 or item_range < 2 :
         return items
     elif len(items) < recursive_threshold:
         return insertion_sort(items)
     else:
-        length = len(items)
-        buckets = [[] for x in range(length+1)]
+        n = min(len(items), item_range) # number of buckets
+        width = item_range/n
+        buckets = [[] for x in range(n)]
         for item in items:
-            buckets[int((item-minimum)/itemRange * length)].append(item)
+            buckets[int((item-minimum)/width)].append(item)
         sortItems = []
-        for i in range(0,length):
-            sortItems.extend(bucketSort(buckets[i], int(i*itemRange/length+minimum), int((i+1)*itemRange/length+minimum), recursive_threshold))
-        sortItems.extend(buckets[length])
+        for i, b in enumerate(buckets):
+            sortItems.extend(
+                bucketSort(b,
+                           int(i*width+minimum),
+                           int((i+1)*width+minimum),
+                           recursive_threshold))
         return sortItems
 
 
