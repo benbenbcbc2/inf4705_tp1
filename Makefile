@@ -8,9 +8,12 @@ IMG_DIRS=dia
 SOURCE=rapport.tex
 BIBFILE=$(SOURCE:%.tex=%.bib)
 
-.PHONY: all clean cleanall images ${IMG_DIRS}
+.PHONY: all test clean cleanall images ${IMG_DIRS}
 
-all: $(SOURCE:%.tex=%.pdf)
+all: $(SOURCE:%.tex=%.pdf) test
+
+test:
+	python3 -m unittest -v
 
 images : ${IMG_DIRS}
 

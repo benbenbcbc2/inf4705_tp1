@@ -1,4 +1,4 @@
-from algorithm import *
+from algorithms.algorithm import *
 
 def merge(a, b):
     res = [None] * (len(a) + len(b))
@@ -13,7 +13,7 @@ def merge(a, b):
     return res[:ia+ib] + (a[ia:] if ia < len(a) else b[ib:])
 
 
-class Mergesort(SortingAlgorithm):
+class MergeSort(SortingAlgorithm):
     name = "merge"
 
     def _sort_fast(self, items, recursive_threshold):

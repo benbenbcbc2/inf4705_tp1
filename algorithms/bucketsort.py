@@ -1,4 +1,4 @@
-from algorithm import *
+from algorithms.algorithm import *
 
 def bucketSort(items, minimum, maximum, recursive_threshold):
     itemRange = maximum-minimum
@@ -18,8 +18,10 @@ def bucketSort(items, minimum, maximum, recursive_threshold):
         return sortItems
 
 
-class Bucketsort(SortingAlgorithm):
+class BucketSort(SortingAlgorithm):
     name = "bucket"
 
     def _sort_fast(self, items, recursive_threshold):
-        return bucketSort(items,min(items),max(items),recursive_threshold)
+        if not items:
+            return items
+        return bucketSort(items,min(items),max(items)+1,recursive_threshold)
