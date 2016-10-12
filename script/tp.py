@@ -2,16 +2,22 @@
 
 import argparse
 from collections import OrderedDict
-import time
 
-from mergesort import *
-from bucketsort import *
+from context import algorithms
+from algorithms.mergesort import MergeSort
+from algorithms.bucketsort import BucketSort
+from algorithms.algorithm import InsertionSort, PythonSort
+from algorithms.timing import time_algo
+from algorithms.threshold import get_threshold_config
+
+bucket_thresh = get_threshold_config("bucketsort")
+merge_thresh = get_threshold_config("mergesort")
 
 algorithms = [
-    Bucketsort(),
-    Bucketsort(10, "bucketSeuil"),
-    Mergesort(),
-    Mergesort(10, "mergeSeuil"),
+    BucketSort(),
+    BucketSort(bucket_thresh, "bucketSeuil"),
+    MergeSort(),
+    MergeSort(merge_thresh, "mergeSeuil"),
     InsertionSort(),
     PythonSort(),
 ]
@@ -41,13 +47,7 @@ def main():
     with args.ex_path as f:
         items = [int(l) for l in f]
 
-    start = time.process_time()
-    for i in range(args.amortize):
-        sorted_items = algo.sort_fast(items)
-    stop = time.process_time()
-
-    elapsed = stop - start
-    average = elapsed / args.amortize
+    average, sorted_items = time_algo(algo, items, args.amortize)
 
     if args.time:
         print("Mean time: {} seconds".format(average))

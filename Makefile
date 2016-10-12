@@ -31,6 +31,7 @@ clean:
             $(SOURCE:%.tex=%.out) $(SOURCE:%.tex=%.log) \
             $(SOURCE:%.tex=%.bbl) $(SOURCE:%.tex=%.blg) \
             $(SOURCE:%.tex=%.toc)
+	find -name '__pycache__' | xargs -r rm -r
 
 
 cleanall: clean

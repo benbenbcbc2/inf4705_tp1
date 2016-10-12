@@ -33,6 +33,19 @@ class PythonSort(SortingAlgorithm):
 def insertion_sort(items):
     res = []
     for i in items:
+        added = False
+        for pos, r in enumerate(res):
+            if i < r:
+                res.insert(pos, i)
+                added = True
+                break
+        if not added:
+            res.append(i)
+    return res
+
+def insertion_sort_fast(items):
+    res = []
+    for i in items:
         insort(res, i)
     return res
 
