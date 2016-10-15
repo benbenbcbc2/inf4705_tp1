@@ -11,7 +11,7 @@ def bucketSort(items, minimum, maximum, recursive_threshold):
         width = item_range/n
         buckets = [[] for x in range(n)]
         for item in items:
-            buckets[int((item-minimum)/width)].append(item)
+            buckets[min(n-1, int((item-minimum)/width))].append(item)
         sortItems = []
         for i, b in enumerate(buckets):
             sortItems.extend(
