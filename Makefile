@@ -18,7 +18,7 @@ test:
 ${SOURCE} : ${M4SOURCE}
 	m4 ${@:%.tex=%.m4} > $@
 
-$(SOURCE:%.tex=%.pdf) : images ${SOURCE} ${BIBFILE}
+$(SOURCE:%.tex=%.pdf) : ${SOURCE} ${BIBFILE}
 	pdflatex --shell-escape $(@:%.pdf=%.tex)
 	bibtex $(@:%.pdf=%.aux)
 	pdflatex --shell-escape $(@:%.pdf=%.tex)
