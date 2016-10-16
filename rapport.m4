@@ -173,7 +173,12 @@ bucketit et du mergeit ne sont pas \textit{in~situ}, mais celles du
 tri par insertion le sont souvent.) On ne cherche donc pas à en
 particulier à minimiser l'utilisation de la mémoire.
 
-\hilight{Expliquer le layout du projet maybe?}
+Tous les algorithmes et le code pour les chronométrer et trouver les
+seuils de récursivité se trouvent dans le répertoire
+\lstinline|algorithms|.  Le répertoire \lstinline|script| contient les
+différents scripts qui permettent de réunir les données.  Le fichier
+\lstinline|tp.sh| ne fait qu'appeler le script
+\lstinline|./script/tp.py|.
 
 \section{Cadre expérimental}
 
@@ -545,9 +550,24 @@ aléatoire pour obtenir un seuil polyvalent.
 
 \section{Discussion}
 
+\hilight{ CHECK THIS }
+
+\begin{verbatim}
+En se basant sur nos droites ayant eu des R^2 les plus près de 1, le
+merge sort avec seuil de récursivité de 1 serait le bon choix pour des
+exemplaires de 100 nombres et moins. Ensuite, pour les exemplaires de
+100 à 200 nombres, le merge sort avec seuil de récursivité de 10
+devient plus avantageux. Pour les exemplaires de 200 à 300, choisir le
+bucket sort avec seuil de 1. Pour finir, pour les exemplaires
+contenant plus de 300 nombres, choisir le bucket sort avec seuil de
+10.
+\end{verbatim}
+
 \section{Conclusion}
 
+\hilight{TODO}
 
+\clearpage
 \bibliographystyle{plainnat} %% or perhaps IEEEtranN
 \bibliography{rapport}
 
