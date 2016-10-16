@@ -432,7 +432,6 @@ ratiotest("./results/mergeSeuil.dat", ,<mergeit avec seuil de \mergthresh{} au m
     set ylabel "Temps d'exécution moyen de l'algorithme [s]"
     set key center top
     set format y '%g'
-    set format x '%g'
     plot $1 u (f($<>1)):2 w linesp t "Série [ 0- 9]",\
     $1 u (f($<>1)):3 w linesp t "Série [10-19]",\
     $1 u (f($<>1)):4 w linesp t "Série [20-29]",\
@@ -478,7 +477,26 @@ constest("./results/mergeSeuil.dat","./results/mergeSeuil_constfit.csv",<mergeit
 
 \subsection{Choix du seuil de récursivité}
 
+%define(<threshgraph>, <
+\subsubsection{$2}
+\begin{figure}[htbp]
+  \centering
+  \begin{gnuplot}[terminal=epslatex, terminaloptions=color dashed]
+    set grid
+    set xlabel "Valeur du seuil de récursivité [-]"
+    set ylabel "Temps d'exécution moyen de l'algorithme [s]"
+    set key center top
+    set format y '%g'
+    unset key
+    plot $1 u 1:2 w l
+  \end{gnuplot}
+  \caption{Graphe du temps d'exécution selon seuil pour $2}\label{fig:$3}
+\end{figure}
+%>)
 
+threshgraph("./results/threshold_bucket.dat",<bucketit>,<buckt>)
+
+threshgraph("./results/threshold_merge.dat",<mergeit>,<mergt>)
 
 \section{Discussion}
 

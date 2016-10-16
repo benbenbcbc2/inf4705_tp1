@@ -36,6 +36,7 @@ clean:
             $(SOURCE:%.tex=%.bbl) $(SOURCE:%.tex=%.blg) \
             $(SOURCE:%.tex=%.toc)
 	find -name '__pycache__' | xargs -r rm -r
+	-rm *.eps *converted-to.pdf *.gnuplot *gnuplottex*
 
 
 cleanall: clean
