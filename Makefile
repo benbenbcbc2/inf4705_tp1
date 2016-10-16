@@ -4,22 +4,16 @@ RM=rm
 PDFLATEX=pdflatex
 
 # File and directory locations
-IMG_DIRS=dia
 M4SOURCE=rapport.m4
 SOURCE=rapport.tex
 BIBFILE=$(SOURCE:%.tex=%.bib)
 
-.PHONY: all test clean cleanall images ${IMG_DIRS}
+.PHONY: all test clean
 
 all: test $(SOURCE:%.tex=%.pdf)
 
 test:
 	python3 -m unittest -v
-
-images : ${IMG_DIRS}
-
-${IMG_DIRS} :
-	$(MAKE) -C $@
 
 ${SOURCE} : ${M4SOURCE}
 	m4 ${@:%.tex=%.m4} > $@
@@ -37,9 +31,3 @@ clean:
             $(SOURCE:%.tex=%.toc)
 	find -name '__pycache__' | xargs -r rm -r
 	-rm *.eps *converted-to.pdf *.gnuplot *gnuplottex*
-
-
-cleanall: clean
-	for SUBDIR in ${IMG_DIRS}; do \
-		$(MAKE) clean -C $$SUBDIR; \
-	done
