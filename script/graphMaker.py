@@ -23,7 +23,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument("--data_dir", "-d", required=True,
                     help="the directory containing the datasets")
 parser.add_argument("--results_dir", "-r", default="results",
-                    help="the directory containing the datasets")
+                    help="the directory containing the results")
 parser.add_argument("--amortize", "-m", type=int, default=1,
                     metavar="N",
                     help="amortize the timing overhead over N" \

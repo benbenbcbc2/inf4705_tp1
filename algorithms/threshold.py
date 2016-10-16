@@ -15,6 +15,11 @@ from .timing import time_algo
 
 config_filename = "sorting.conf"
 
+def get_config():
+    config = ConfigParser()
+    config.read(config_filename)
+    return config
+
 def get_threshold_config(algo_name, default=10):
     """Get the threshold for the given algorithm
 
@@ -22,8 +27,7 @@ def get_threshold_config(algo_name, default=10):
     not exist or if the key is absent from the file.
 
     """
-    config = ConfigParser()
-    config.read(config_filename)
+    config = get_config()
     thresh = default
     try:
         thresh = config[algo_name].getint("threshold", default)
