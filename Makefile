@@ -2,13 +2,14 @@
 MAKE=make
 RM=rm
 PDFLATEX=pdflatex
+ZIPNAME=matricule1_matricule2_tp1
 
 # File and directory locations
 M4SOURCE=rapport.m4
 SOURCE=rapport.tex
 BIBFILE=$(SOURCE:%.tex=%.bib)
 
-.PHONY: all test clean
+.PHONY: all test clean dist
 
 all: test $(SOURCE:%.tex=%.pdf)
 
@@ -31,3 +32,7 @@ clean:
             $(SOURCE:%.tex=%.toc)
 	find -name '__pycache__' | xargs -r rm -r
 	-rm *.eps *converted-to.pdf *.gnuplot *gnuplottex*
+
+dist: all
+	zip ${ZIPNAME} algorithms/*.py script/*.{py,sh} tests/*.py results/*.dat
+	zip ${ZIPNAME} Makefile README.md rapport.{m4,bib,pdf} tp.sh sorting.conf
