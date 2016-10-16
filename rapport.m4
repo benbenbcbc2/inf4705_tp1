@@ -178,9 +178,9 @@ particulier à minimiser l'utilisation de la mémoire.
 \section{Cadre expérimental}
 
 Les algorithmes sont implémentés dans le langage \textit{Python 3}.
-L'exécution est faite sur les ordinateurs du laboratoire.  En
-particulier, les informations concernant le matériel utilisé sont
-présentées à la figure~\ref{lst:hardware}.
+L'exécution est faite sur un portable Thinkpad x220.  En particulier,
+les informations concernant le matériel utilisé sont présentées à la
+figure~\ref{lst:hardware}.
 
 \begin{figure}[htbp]
   \centering
@@ -188,9 +188,9 @@ présentées à la figure~\ref{lst:hardware}.
   \caption{Matériel utilisé pour l'exécution des chronométrages}\label{lst:hardware}
 \end{figure}
 
-Afin d'améliorer la précision des mesures de temps, il pourrait être
-préférable de changer la politique de changement de fréquence des
-processeurs pour qu'elle assure une fréquence constante.  En effet, on
+Afin d'améliorer la précision des mesures de temps, il est préférable
+de changer la politique de changement de fréquence des processeurs
+pour qu'elle assure une fréquence plutôt constante.  En effet, on
 utilise la fonction \lstinline|time.process_time()| de Python, qui
 donne la somme du temps du côté utilisateur et noyau et ainsi ce temps
 est obtenu en prenant le compte des \textit{ticks} de processeur
@@ -198,7 +198,10 @@ divisé par la fréquence actuelle \cite{PEP418}.  Alors, si cette
 fréquence change entre les mesures, cela peut avoir un effet sur les
 temps mesurés.  Cependant, les permissions accordées aux étudiants
 dans les laboratoires ne permettent pas de changer cette
-configuration.
+configuration.  C'est pour cette raison que nous faisons les banc
+d'essais sur un machine qui nous donne les droits d'administration.
+La commande utilisée est~:
+\lstinline|sudo cpupower frequency-set -g performance|.
 
 % see https://wiki.archlinux.org/index.php/CPU_frequency_scaling
 
@@ -383,10 +386,11 @@ ratiotest("./results/bucket.dat", ,<bucketit au pire cas>, <ratiobuckw>, <x**2>,
 
 Comme le montre la figure \ref{fig:ratiobucksba}, le ratio pour
 bucketit avec seuil au meilleur et moyen cas paraît éventuellement
-converger à une valeur supérieure à $0$.  Cette fonction paraît être
-une bonne estimation.  Cependant, pour ce qui est du pire cas, le
-ratio converge vers $0$, cela est visible à la figure
-\ref{fig:ratiobucksw}. Cette fonction est une surestimation.
+converger à une valeur supérieure à $0$, quoique faiblement, elle
+pourrait aussi diverger.  Cette fonction paraît être une estimation
+acceptable mais possiblement un sous-estimation.  Cependant, pour ce
+qui est du pire cas, le ratio converge vers $0$, cela est visible à la
+figure \ref{fig:ratiobucksw}. Cette fonction est une surestimation.
 
 ratiotest("./results/bucketSeuil.dat", ,<bucketit avec seuil de \buckthresh{} au meilleur cas et au cas moyen>, <ratiobucksba>, <x>, <x>)
 
@@ -395,7 +399,7 @@ ratiotest("./results/bucketSeuil.dat", ,<bucketit avec seuil de \buckthresh{} au
 \subsubsection{mergeit}
 
 Le graphe à la figure \ref{fig:ratiomerg} montre la convergence du
-rapport pour le mergit.  L'estimation est sensée.
+rapport pour le mergeit.  L'estimation est sensée.
 
 ratiotest("./results/merge.dat", ,<mergeit au meilleur cas, au cas moyen et au pire cas>, <ratiomerg>, <x*log(x)>, <x*log(x)>)
 
@@ -419,6 +423,8 @@ ratiotest("./results/mergeSeuil.dat", ,<mergeit avec seuil de \mergthresh{} au m
 
     set print $2
     print "Série, a, b"
+    a = 0.001
+    b = 0.001
     fit g(x) $1 u 1:2 via a,b
     print "0-9,",gprintf('%.10f',a),",", b
     fit g(x) $1 u 1:3 via a,b
@@ -461,21 +467,37 @@ $C$: $$C(x) = \meana \cdot{} ($6) + (\meanb)$$
 
 constest("./results/bucket.dat","./results/bucket_constfit.csv",<bucketit au meilleur cas et au cas moyen>, <constbuck>, <x>, <x>)
 
-\hilight{Discutez des résultats obtenus}
+Pour le bucketit, on a choisit le cas moyen/meilleur cas
+($\Theta(n)$).  Les courbes semblent assez droites, donc l'estimation
+est sans doute bonne.  Le coût fixe négatif paraît étrange, cependant,
+il faut se rappeller que nos données conscernent le comportement
+asymptotique avec de grands exemplaires.  Un comportement différent
+pour les petites valeurs est attendu.
 
 constest("./results/bucketSeuil.dat","./results/bucketSeuil_constfit.csv",<bucketit avec seuil de \buckthresh{} au meilleur cas et au cas moyen>, <constbucks>, <x>, <x>)
 
-\hilight{Discutez des résultats obtenus}
+Le choix du cas est identique pour le bucketit avec seuil.  On
+constate encore des courbes assez droites et donc un régression assez
+précise.
 
 constest("./results/merge.dat","./results/merge_constfit.csv",<mergeit au meilleur cas, au cas moyen et au pire cas>, <constmerg>, <x*log(x)>, <x*log(x)>)
 
-\hilight{Discutez des résultats obtenus}
+Pour les deux mergeit (avec et sans seuil), on a choisit la fonction
+$n\cdot{} log(n)$ pour le test des constantes.  Les courbes sont
+enncore une fois assez droites.  Le coût fixe est près d'être nul, ce
+qui n'est pas trop étonnant.
 
 constest("./results/mergeSeuil.dat","./results/mergeSeuil_constfit.csv",<mergeit avec seuil de \mergthresh{} au meilleur cas, au cas moyen et au pire cas>, <constmergs>, <x*log(x)>, <x*log(x)>)
 
-\hilight{Discutez des résultats obtenus}
+La situation est presque identique à celle sans seuil de récursivité.
+Les courbes sont assez droites et suggèrent une fonction assez
+précise.
 
 \subsection{Choix du seuil de récursivité}
+
+Nos algorithmes avec seuils de récursivité étaient généralement plus
+rapides.  Les seuils ont été déterminés expérimentalement comme
+expliqué ci-dessous.
 
 %define(<threshgraph>, <
 \subsubsection{$2}
@@ -496,7 +518,30 @@ constest("./results/mergeSeuil.dat","./results/mergeSeuil_constfit.csv",<mergeit
 
 threshgraph("./results/threshold_bucket.dat",<bucketit>,<buckt>)
 
+Le graphe à la figure \ref{fig:buckt} ne semble pas montrer de
+tendance.  En effet, pour des exemplaires uniformément distribués, le
+seuil de récursivité a peu d'influence.  Le temps d'exécution est
+généralement plus grand pour un très petit seuil. Cela est dû au fait
+qu'après la division du premier exemplaire, il y a peu de chances que
+beaucoup d'éléments se retrouvent dans le même récipient pour la
+prochaine étape de récursion.  Un seuil de \buckthresh{} a donc été
+choisi.
+
 threshgraph("./results/threshold_merge.dat",<mergeit>,<mergt>)
+
+Pour ce qui est du mergeit, cependant, le graphe de temps d'exécution
+en fonction du seuil montre une comportement très apparent (figure
+\ref{fig:mergt}).  Pour nos exemplaires de grandeur 300, il y a une
+forme d'escalier avec des marches qui se trouvent aux seuils $\{N/2^i,
+i=1,2\dots\}$.  C'est à cause de la façon de séparer la tâche dans le
+mergeit.  Le seuil n'influence le temps d'execution qu'en traversant
+ces frontières parce qu'il n'y a pas d'exemplaires de taille
+intermédiaire.  La marche la plus rapide pour $N=300$ est celle qui se
+trouve dans l'intervalle $[37.5, 75]$ alors nous avons choisit
+\mergthresh{} comme valeur relativement centrale dans cet intervalle
+pour accommoder les exemplaires de tailles plus variées.  Il pourrait
+être intéressant de faire varier la taille des exemplaires de façon
+aléatoire pour obtenir un seuil polyvalent.
 
 \section{Discussion}
 
