@@ -212,7 +212,7 @@ La commande utilisée est~:
 
 \section{Jeux de données}
 
-Il y a, au total, 150 exemplaires de données ; 30 pour chacun des cinq
+Il y a, au total, 150 exemplaires de données; 30 pour chacun des cinq
 jeux de tests. Chaque jeu de test correspont à une quantité de nombres
 dans les exemplaires. Par exemple, le jeu de test 1000 contient 30
 exemplaires de 1000 nombres, numérotés de 0 à 29. Les cinq quantités
@@ -449,6 +449,7 @@ ratiotest("./results/mergeSeuil.dat", ,<mergeit avec seuil de \mergthresh{} au m
     set ylabel "Temps d'exécution moyen de l'algorithme [s]"
     set key center top
     set format y '%g'
+    set xtics $7
     plot $1 u (f($<>1)):2 w linesp t "Série [ 0- 9]",\
     $1 u (f($<>1)):3 w linesp t "Série [10-19]",\
     $1 u (f($<>1)):4 w linesp t "Série [20-29]",\
@@ -476,7 +477,7 @@ fonction de coût en secondes selon la grandeur du tableau d'entrée
 $C$: $$C(x) = \meana \cdot{} ($6) + (\meanb)$$
 %>)
 
-constest("./results/bucket.dat","./results/bucket_constfit.csv",<bucketit au meilleur cas et au cas moyen>, <constbuck>, <x>, <x>)
+constest("./results/bucket.dat","./results/bucket_constfit.csv",<bucketit au meilleur cas et au cas moyen>, <constbuck>, <x>, <x>, <100000>)
 
 Pour le bucketit, on a choisit le cas moyen/meilleur cas
 ($\Theta(n)$).  Les courbes semblent assez droites, donc l'estimation
@@ -485,20 +486,20 @@ il faut se rappeller que nos données conscernent le comportement
 asymptotique avec de grands exemplaires.  Un comportement différent
 pour les petites valeurs est attendu.
 
-constest("./results/bucketSeuil.dat","./results/bucketSeuil_constfit.csv",<bucketit avec seuil de \buckthresh{} au meilleur cas et au cas moyen>, <constbucks>, <x>, <x>)
+constest("./results/bucketSeuil.dat","./results/bucketSeuil_constfit.csv",<bucketit avec seuil de \buckthresh{} au meilleur cas et au cas moyen>, <constbucks>, <x>, <x>, <100000>)
 
 Le choix du cas est identique pour le bucketit avec seuil.  On
 constate encore des courbes assez droites et donc un régression assez
 précise.
 
-constest("./results/merge.dat","./results/merge_constfit.csv",<mergeit au meilleur cas, au cas moyen et au pire cas>, <constmerg>, <x*log(x)>, <x*log(x)>)
+constest("./results/merge.dat","./results/merge_constfit.csv",<mergeit au meilleur cas, au cas moyen et au pire cas>, <constmerg>, <x*log(x)>, <x*log(x)>, <auto>)
 
 Pour les deux mergeit (avec et sans seuil), on a choisit la fonction
 $n\cdot{} log(n)$ pour le test des constantes.  Les courbes sont
 enncore une fois assez droites.  Le coût fixe est près d'être nul, ce
 qui n'est pas trop étonnant.
 
-constest("./results/mergeSeuil.dat","./results/mergeSeuil_constfit.csv",<mergeit avec seuil de \mergthresh{} au meilleur cas, au cas moyen et au pire cas>, <constmergs>, <x*log(x)>, <x*log(x)>)
+constest("./results/mergeSeuil.dat","./results/mergeSeuil_constfit.csv",<mergeit avec seuil de \mergthresh{} au meilleur cas, au cas moyen et au pire cas>, <constmergs>, <x*log(x)>, <x*log(x)>, <auto>)
 
 La situation est presque identique à celle sans seuil de récursivité.
 Les courbes sont assez droites et suggèrent une fonction assez
@@ -560,19 +561,19 @@ En observant le coût moyen en secondes selon la grandeur des tableaux
 pour nos algorithmes, on peut facilement se rendre compte que les
 algorithmes sont toujours plus efficaces avec un seuil de
 récursivité. C'est pourquoi le choix des algorithmes avec un seuil de
-1 ne sont jamais les bon choix. Pour ce qui est de la comparaison
-entre bucketsort et mergesort, il est important de noter leurs
-avantages et leurs inconvénients. Pour ce qui est du bucketsort, il
-est vraiment moins efficace lorsque les éléments ne sont pas
-uniformément distribués. Il est donc préférable de choisir mergesort
-dans ce cas-ci. Sinon, le bucketsort est le plus souvent du temps le
-meilleur choix pour les gros et les petits ensembles. Selon nos
-résultats, le seul moment où le mergesort serait plus efficace est
-pour des ensembles contenant entre 15410 et 227218 nombres.
+1 n'est jamais le bon. Pour ce qui est de la comparaison entre
+bucketit et mergeit, il est important de noter leurs avantages et
+leurs inconvénients. Pour ce qui est du bucketit, il est vraiment
+moins efficace lorsque les éléments ne sont pas uniformément
+distribués. Il est donc préférable de choisir mergeit dans ce
+cas-ci. Sinon, le bucketit est le plus souvent du temps le meilleur
+choix pour les gros et les petits ensembles. Selon nos résultats, le
+seul moment où le mergeit serait plus efficace est pour des ensembles
+contenant entre 15410 et 227218 nombres.
 
 \section{Conclusion}
 
-En conclusion, l'analyse asymptotiques est bien pour aider à décider
+En conclusion, l'analyse asymptotique est bonne pour aider à décider
 entre deux algorithmes, mais elle ne permet pas de voir certain
 détails comme l'analyse empirique. C'est grâce à cette dernière que
 l'on peut observer à partir de quel moment un algorithme devient plus
