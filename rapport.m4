@@ -212,7 +212,13 @@ La commande utilisée est~:
 
 \section{Jeux de données}
 
-\hilight{TODO}
+Il y a, au total, 150 exemplaires de données ; 30 pour chacun des cinq
+jeux de tests. Chaque jeu de test correspont à une quantité de nombres
+dans les exemplaires. Par exemple, le jeu de test 1000 contient 30
+exemplaires de 1000 nombres, numérotés de 0 à 29. Les cinq quantités
+sont : 1000, 5000, 10000, 50000 et 100000. Pour l'analyse des
+algorithmes, tous les jeux ont été séparés en 3 séries de dix
+exemplaires (0 à 9, 10 à 19, 20 à 29), analysés séparément.
 
 \section{Résultats}
 
@@ -550,22 +556,29 @@ aléatoire pour obtenir un seuil polyvalent.
 
 \section{Discussion}
 
-\hilight{ CHECK THIS }
-
-\begin{verbatim}
-En se basant sur nos droites ayant eu des R^2 les plus près de 1, le
-merge sort avec seuil de récursivité de 1 serait le bon choix pour des
-exemplaires de 100 nombres et moins. Ensuite, pour les exemplaires de
-100 à 200 nombres, le merge sort avec seuil de récursivité de 10
-devient plus avantageux. Pour les exemplaires de 200 à 300, choisir le
-bucket sort avec seuil de 1. Pour finir, pour les exemplaires
-contenant plus de 300 nombres, choisir le bucket sort avec seuil de
-10.
-\end{verbatim}
+En observant le coût moyen en secondes selon la grandeur des tableaux
+pour nos algorithmes, on peut facilement se rendre compte que les
+algorithmes sont toujours plus efficaces avec un seuil de
+récursivité. C'est pourquoi le choix des algorithmes avec un seuil de
+1 ne sont jamais les bon choix. Pour ce qui est de la comparaison
+entre bucketsort et mergesort, il est important de noter leurs
+avantages et leurs inconvénients. Pour ce qui est du bucketsort, il
+est vraiment moins efficace lorsque les éléments ne sont pas
+uniformément distribués. Il est donc préférable de choisir mergesort
+dans ce cas-ci. Sinon, le bucketsort est le plus souvent du temps le
+meilleur choix pour les gros et les petits ensembles. Selon nos
+résultats, le seul moment où le mergesort serait plus efficace est
+pour des ensembles contenant entre 15410 et 227218 nombres.
 
 \section{Conclusion}
 
-\hilight{TODO}
+En conclusion, l'analyse asymptotiques est bien pour aider à décider
+entre deux algorithmes, mais elle ne permet pas de voir certain
+détails comme l'analyse empirique. C'est grâce à cette dernière que
+l'on peut observer à partir de quel moment un algorithme devient plus
+efficace qu'un autre. De plus, c'est avec l'analyse empirique que
+l'importance d'un seuil de récursivité peut être observé. Il est
+clairement plus efficace de fonctionner avec un seuil que sans.
 
 \clearpage
 \bibliographystyle{plainnat} %% or perhaps IEEEtranN
